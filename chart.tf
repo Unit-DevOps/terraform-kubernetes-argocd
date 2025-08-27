@@ -19,13 +19,14 @@ resource "helm_release" "argocd" {
     value = var.admin_password == "" ? "" : bcrypt(var.admin_password)
   }
 
-  set = {
-    name  = "configs.params.server\\.insecure"
-    value = var.insecure == false ? false : true
-  }
-
-  set = {
-    name  = "dex.enabled"
-    value = var.enable_dex == true ? true : false
-  }
+  set = [
+    {
+      name  = "configs.params.server\\.insecure"
+      value = var.insecure == false ? false : true
+    },
+    {
+      name  = "dex.enabled"
+      value = var.enable_dex == true ? true : false
+    }
+  ]
 }
