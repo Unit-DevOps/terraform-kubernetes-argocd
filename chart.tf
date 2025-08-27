@@ -14,10 +14,12 @@ resource "helm_release" "argocd" {
   # else apply the default values from the chart
   values = [fileexists("${path.root}/${var.values_file}") == true ? file("${path.root}/${var.values_file}") : ""]
 
-  set_sensitive = {
+  set_sensitive = [
+    {
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.admin_password == "" ? "" : bcrypt(var.admin_password)
-  }
+    }
+  ]
 
   set = [
     {
